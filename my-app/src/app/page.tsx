@@ -1,103 +1,223 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect } from 'react';
+import Script from 'next/script';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // initialize AOS after load
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).AOS) {
+      (window as any).AOS.init({
+        duration: 1000,
+        once: true,
+      });
+    }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    // navbar scroll behavior
+    const navbar = document.getElementById('navbar');
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (!navbar) return;
+      if (window.scrollY > lastScrollY) {
+        navbar.classList.add('opacity-0', '-translate-y-10');
+        navbar.classList.remove('opacity-100', 'translate-y-0');
+      } else {
+        navbar.classList.remove('opacity-0', '-translate-y-10');
+        navbar.classList.add('opacity-100', 'translate-y-0');
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // mobile menu toggle
+  const toggleMenu = () => {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    if (mobileMenu && hamburgerIcon && closeIcon) {
+      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('flex');
+      hamburgerIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    }
+  };
+
+  return (
+    <main className="bg-gray-50 text-gray-800">
+      {/* External CSS/JS */}
+      <Script src="https://unpkg.com/aos@2.3.4/dist/aos.js" strategy="beforeInteractive" />
+      <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+      {/* Navbar */}
+      <nav
+        id="navbar"
+        className="bg-white shadow-md sticky top-0 z-50 transition-all duration-250"
+      >
+        <div className="max-w-7xl mx-auto flex justify-between items-center p-4 space-x-8">
+          {/* Logo */}
+          <a href="main.html" className="flex items-center space-x-2">
+            <img
+              src="images/UTWIND Logo_Circular_without_LogoType_1 color.jpg"
+              alt="UTWind Logo"
+              className="h-10 w-auto"
             />
-            Deploy now
+            <span className="text-2xl font-bold text-blue-600">UTWind</span>
           </a>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex space-x-6 ml-auto">
+            <a href="main.html" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Home</a>
+            <a href="competition.html" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Competition</a>
+            <a href="team.html" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Team</a>
+            <a href="projects.html" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Projects</a>
+            <a href="joinus.html" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Join Us</a>
+            <a href="sponsors.html" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Sponsors</a>
+            <a href="main.html#contact" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Contact</a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button id="menu-btn" className="block md:hidden focus:outline-none" onClick={toggleMenu}>
+            <svg
+              id="hamburger-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8 text-gray-700"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg
+              id="close-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8 text-gray-700 hidden"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Dropdown */}
+        <div
+          id="mobile-menu"
+          className="hidden md:hidden flex-col items-center bg-white shadow-md space-y-4 py-4"
+        >
+          <a href="main.html" className="hover:text-blue-600 transition">Home</a>
+          <a href="competition.html" className="hover:text-blue-600 transition">Competition</a>
+          <a href="team.html" className="hover:text-blue-600 transition">Team</a>
+          <a href="projects.html" className="hover:text-blue-600 transition">Projects</a>
+          <a href="joinus.html" className="hover:text-blue-600 transition">Join Us</a>
+          <a href="sponsors.html" className="hover:text-blue-600 transition">Sponsors</a>
+          <a href="main.html#contact" className="hover:text-blue-600 transition">Contact</a>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <section
+        className="relative h-screen bg-cover bg-left bg-no-repeat flex items-center text-white"
+        style={{ backgroundImage: "url('images/ISWTC turbine.JPG')" }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-40" />
+        <div className="relative z-10 max-w-3xl pl-16 pr-6">
+          <h1 className="text-9xl font-bold mb-6">UTWind</h1>
+          <h2 className="text-6xl font-light mb-4">Face the Wind</h2>
+          <p className="text-3xl leading-relaxed">
+            University of Toronto Wind Turbine Team
+          </p>
+        </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="bg-blue-500 text-white py-20" data-aos="fade-up">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-6xl font-bold mb-6">About Us</h2>
+          <p className="text-xl">
+            UTWind is a student team dedicated to building sustainable small-scale wind turbines. 
+            Formed in 2021, our team has grown to more than 80 talented students designing, building, 
+            and testing small-scale turbines for international competitions and research.
+          </p>
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="team.html"
+            className="inline-block mt-8 bg-indigo-200 hover:bg-indigo-400 text-black font-semibold py-4 px-10 rounded-lg shadow-md text-lg transition duration-300"
           >
-            Read our docs
+            Meet the Team
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* Vision */}
+      <section id="vision" className="bg-white text-gray-800 py-20" data-aos="fade-up">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-6xl font-bold mb-6">Vision</h2>
+          <p className="text-xl italic leading-relaxed">
+            "Our vision is to bring wind energy to light for students at the University of Toronto, 
+            so they will be prepared and inspired to light up the world in a sustainable way. 
+            By working together, we hope to develop our skills in the context of a project we are passionate about. 
+            The team is a place where knowledge is shared and passed on, designed to focus not just on what we 
+            learn today, but what we can achieve in designing a more sustainable future."
+          </p>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="bg-indigo-50 py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-gray-800 text-center mb-8">Contact Us</h2>
+          <p className="text-center text-lg text-gray-700 max-w-2xl mx-auto mb-12">
+            Interested in learning more about UTWind or collaborating with us?  
+            We’d love to hear from you! Please reach out via email or visit us at Myhal Centre.
+          </p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="bg-white rounded-xl shadow-md p-8">
+              <h3 className="text-2xl font-semibold text-indigo-700 mb-4">Get in Touch</h3>
+              <p className="text-gray-700 mb-2">
+                <strong>Email:</strong>{' '}
+                <a href="mailto:contact@utwind.com" className="text-indigo-600 font-semibold hover:underline">
+                  contact@utwind.com
+                </a>
+              </p>
+              <p className="text-gray-700 mb-4">
+                <strong>Address:</strong><br />
+                Myhal Centre for Engineering Innovation & Entrepreneurship<br />
+                55 St George St, Toronto, ON M5S 0C9
+              </p>
+              <p className="text-gray-600 font-bold">
+                Feel free to reach out with questions about joining, sponsorship opportunities, or partnerships — our team will respond as soon as possible.
+              </p>
+            </div>
+
+            <div className="rounded-xl overflow-hidden shadow-md">
+              <iframe
+                src="https://www.google.com/maps?q=Myhal+Centre+for+Engineering+Innovation+and+Entrepreneurship,+55+St+George+St,+Toronto,+ON+M5S+0C9&output=embed"
+                width="100%"
+                height="350"
+                style={{ border: 0 }}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-blue-100 text-gray-300 py-6 mt-20">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
+          <div className="flex items-center space-x-3">
+            <img src="images/Utwind footer logo.png" alt="UTWind Logo" className="h-10 w-auto" />
+            <span className="text-lg font-semibold text-black">contact@utwind.com</span>
+          </div>
+          <p className="text-sm text-black">© 2025 UTWind | University of Toronto</p>
+        </div>
       </footer>
-    </div>
+    </main>
   );
 }
