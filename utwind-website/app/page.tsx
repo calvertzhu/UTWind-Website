@@ -69,12 +69,12 @@ export default function Home() {
           {/* desktop links */}
           <div className="hidden md:flex space-x-6 ml-auto">
             <a href="#" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Home</a>
-            <a href="#competition" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Competition</a>
-            <a href="#team" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Team</a>
-            <a href="#projects" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Projects</a>
-            <a href="#joinus" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Join Us</a>
-            <a href="#sponsors" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Sponsors</a>
-            <a href="#contact" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Contact</a>
+            <a href="competition" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Competition</a>
+            <a href="team" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Team</a>
+            <a href="projects" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Projects</a>
+            <a href="joinus" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Join Us</a>
+            <a href="sponsors" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Sponsors</a>
+            <a href="contact" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Contact</a>
           </div>
 
           {/* mobile menu button */}
