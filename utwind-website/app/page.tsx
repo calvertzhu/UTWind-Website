@@ -1,7 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
 import Script from 'next/script';
+import { useEffect, useRef, useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   useEffect(() => {
@@ -10,18 +13,18 @@ export default function Home() {
       (window as any).AOS.init({ duration: 1000, once: true });
     }
 
-    // navbar scroll effect
-    const navbar = document.getElementById('navbar');
+    // navbar scroll effect (will use navbarRef if set)
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
-      if (!navbar) return;
+      const el = navbarRef.current || document.getElementById('navbar');
+      if (!el) return;
       if (window.scrollY > lastScrollY) {
-        navbar.classList.add('opacity-0', '-translate-y-10');
-        navbar.classList.remove('opacity-100', 'translate-y-0');
+        el.classList.add('opacity-0', '-translate-y-10');
+        el.classList.remove('opacity-100', 'translate-y-0');
       } else {
-        navbar.classList.remove('opacity-0', '-translate-y-10');
-        navbar.classList.add('opacity-100', 'translate-y-0');
+        el.classList.remove('opacity-0', '-translate-y-10');
+        el.classList.add('opacity-100', 'translate-y-0');
       }
       lastScrollY = window.scrollY;
     };
@@ -30,19 +33,12 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // menu toggle
-  const toggleMenu = () => {
-    const mobileMenu = document.getElementById('mobile-menu');
-    const hamburgerIcon = document.getElementById('hamburger-icon');
-    const closeIcon = document.getElementById('close-icon');
+  // ref for navbar and mobile menu state
+  const navbarRef = useRef<HTMLElement | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-    if (mobileMenu && hamburgerIcon && closeIcon) {
-      mobileMenu.classList.toggle('hidden');
-      mobileMenu.classList.toggle('flex');
-      hamburgerIcon.classList.toggle('hidden');
-      closeIcon.classList.toggle('hidden');
-    }
-  };
+  // simple toggle using state
+  const toggleMenu = () => setMobileOpen((v) => !v);
 
   return (
     <main className="bg-gray-50 text-gray-800">
@@ -55,34 +51,40 @@ export default function Home() {
         id="navbar"
         className="bg-white shadow-md sticky top-0 z-50 transition-all duration-250"
       >
-        <div className="max-w-7xl mx-auto flex justify-between items-center p-4 space-x-8">
-          {/* logo */}
-          <a href="#" className="flex items-center space-x-2">
-            <img
+      <div className="max-w-7xl mx-auto flex justify-between items-center p-4 space-x-8">
+        {/* logo */}
+          <Link href="/" className="flex items-center space-x-2">
+            <Image
               src="/images/UTWIND Logo_Circular_without_LogoType_1 color.jpg"
               alt="UTWind Logo"
+              width={40}
+              height={40}
               className="h-10 w-auto"
+              priority
             />
             <span className="text-2xl font-bold text-blue-600">UTWind</span>
-          </a>
+          </Link>
 
           {/* desktop links */}
           <div className="hidden md:flex space-x-6 ml-auto">
-            <a href="#" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Home</a>
-            <a href="competition" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Competition</a>
-            <a href="team" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Team</a>
-            <a href="projects" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Projects</a>
-            <a href="joinus" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Join Us</a>
-            <a href="sponsors" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Sponsors</a>
-            <a href="contact" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Contact</a>
+            <Link href="/" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Home</Link>
+            <Link href="/competition" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Competition</Link>
+            <Link href="/team" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Team</Link>
+            <Link href="/projects" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Projects</Link>
+            <Link href="/joinus" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Join Us</Link>
+            <Link href="/sponsors" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Sponsors</Link>
+            <Link href="/#contact" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Contact</Link>
           </div>
 
-          {/* mobile menu button */}
-          <button id="menu-btn" className="block md:hidden focus:outline-none" onClick={toggleMenu}>
+          {/* mobile toggle */}
+          <button
+            aria-label="Toggle Menu"
+            onClick={() => setMobileOpen((v) => !v)}
+            className="block md:hidden focus:outline-none"
+          >
             <svg
-              id="hamburger-icon"
+              className={`h-8 w-8 text-gray-700 ${mobileOpen ? "hidden" : "block"}`}
               xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-gray-700"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -90,9 +92,8 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             <svg
-              id="close-icon"
+              className={`h-8 w-8 text-gray-700 ${mobileOpen ? "block" : "hidden"}`}
               xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-gray-700 hidden"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -103,19 +104,17 @@ export default function Home() {
         </div>
 
         {/* mobile dropdown */}
-        <div
-          id="mobile-menu"
-          className="hidden md:hidden flex-col items-center bg-white shadow-md space-y-4 py-4"
-        >
-          <a href="#" className="hover:text-blue-600 transition">Home</a>
-          <a href="#competition" className="hover:text-blue-600 transition">Competition</a>
-          <a href="#team" className="hover:text-blue-600 transition">Team</a>
-          <a href="#projects" className="hover:text-blue-600 transition">Projects</a>
-          <a href="#joinus" className="hover:text-blue-600 transition">Join Us</a>
-          <a href="#sponsors" className="hover:text-blue-600 transition">Sponsors</a>
-          <a href="#contact" className="hover:text-blue-600 transition">Contact</a>
+        <div className={`md:hidden flex-col items-center bg-white shadow-md space-y-4 py-4 ${mobileOpen ? "flex" : "hidden"}`}>
+          <Link href="/" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Home</Link>
+          <Link href="/competition" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Competition</Link>
+          <Link href="/team" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Team</Link>
+          <Link href="/projects" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Projects</Link>
+          <Link href="/joinus" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Join Us</Link>
+          <Link href="/sponsors" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Sponsors</Link>
+          <Link href="/#contact" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Contact</Link>
         </div>
-      </nav>
+    </nav>
+<div className="absolute inset-0 bg-transparent bg-opacity-40"></div>
 
       {/* hero */}
       <section
@@ -135,8 +134,7 @@ export default function Home() {
   </div>
 </section>
 
-
-      {/* about */}
+    {/* about */}
       <section id="about" className="bg-blue-500 text-white py-20" data-aos="fade-up">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-6xl font-bold mb-6">About Us</h2>
@@ -146,7 +144,7 @@ export default function Home() {
             and testing small-scale turbines for international competitions and research.
           </p>
           <a
-            href="#team"
+            href="/team"
             className="inline-block mt-8 bg-indigo-200 hover:bg-indigo-400 text-black font-semibold py-4 px-10 rounded-lg shadow-md text-lg transition duration-300"
           >
             Meet the Team

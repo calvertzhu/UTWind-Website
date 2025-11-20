@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 
 type Project = "pet" | "turbine" | null;
 
@@ -55,125 +57,71 @@ export default function ProjectsPage() {
 
   return (
     <div className="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-      {/* NAVBAR */}
-      <nav
-        id="navbar"
-        ref={navbarRef}
-        className="bg-white shadow-md sticky top-0 z-50 transition-all duration-200 opacity-100 translate-y-0"
-      >
-        <div className="max-w-7xl mx-auto flex justify-between items-center p-4 space-x-8">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <img
-              src="/images/UTWIND Logo_Circular_without_LogoType_1 color.jpg"
-              alt="UTWind Logo"
-              className="h-10 w-auto"
-            />
-            <span className="text-2xl font-bold text-blue-600">UTWind</span>
-          </Link>
+      {/* Navbar */}
+        <nav
+          ref={navbarRef}
+          id="navbar"
+          className="bg-white shadow-md sticky top-0 z-50 transition-all duration-200"
+        >
+          <div className="max-w-7xl mx-auto flex justify-between items-center p-4 space-x-8">
+            <Link href="/" className="flex items-center space-x-2">
+              <Image
+                src="/images/UTWIND Logo_Circular_without_LogoType_1 color.jpg"
+                alt="UTWind Logo"
+                width={40}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
+              <span className="text-2xl font-bold text-blue-600">UTWind</span>
+            </Link>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex space-x-6 ml-auto">
-            <Link href="/" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-              Home
-            </Link>
-            <Link href="/competition" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-              Competition
-            </Link>
-            <Link href="/team" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-              Team
-            </Link>
-            <Link href="/projects" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-              Projects
-            </Link>
-            <Link href="/joinus" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-              Join Us
-            </Link>
-            <Link href="/sponsors" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-              Sponsors
-            </Link>
-            <Link href="/#contact" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-              Contact
-            </Link>
+            <div className="hidden md:flex space-x-6 ml-auto">
+              <Link href="/" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Home</Link>
+              <Link href="/competition" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Competition</Link>
+              <Link href="/team" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Team</Link>
+              <Link href="/projects" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Projects</Link>
+              <Link href="/joinus" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Join Us</Link>
+              <Link href="/sponsors" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Sponsors</Link>
+              <Link href="/#contact" className="px-4 py-2 rounded-lg hover:bg-gray-200 transition">Contact</Link>
+            </div>
+
+            <button
+              aria-label="Toggle Menu"
+              onClick={() => setMobileOpen((v) => !v)}
+              className="block md:hidden focus:outline-none"
+            >
+              <svg
+                className={`h-8 w-8 text-gray-700 ${mobileOpen ? "hidden" : "block"}`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg
+                className={`h-8 w-8 text-gray-700 ${mobileOpen ? "block" : "hidden"}`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
 
-          {/* Mobile Hamburger */}
-          <button
-            className="block md:hidden focus:outline-none"
-            onClick={() => setMobileOpen((prev) => !prev)}
-          >
-            {/* Hamburger icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`h-8 w-8 text-gray-700 ${mobileOpen ? "hidden" : "block"}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            {/* Close icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`h-8 w-8 text-gray-700 ${mobileOpen ? "block" : "hidden"}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Mobile Dropdown Menu */}
-        <div
-          className={`md:hidden flex-col items-center bg-white shadow-md space-y-4 py-4 ${
-            mobileOpen ? "flex" : "hidden"
-          }`}
-        >
-          <Link href="/" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>
-            Home
-          </Link>
-          <Link
-            href="/competition"
-            className="hover:text-blue-600 transition"
-            onClick={() => setMobileOpen(false)}
-          >
-            Competition
-          </Link>
-          <Link href="/team" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>
-            Team
-          </Link>
-          <Link
-            href="/projects"
-            className="hover:text-blue-600 transition"
-            onClick={() => setMobileOpen(false)}
-          >
-            Projects
-          </Link>
-          <Link
-            href="/joinus"
-            className="hover:text-blue-600 transition"
-            onClick={() => setMobileOpen(false)}
-          >
-            Join Us
-          </Link>
-          <Link
-            href="/sponsors"
-            className="hover:text-blue-600 transition"
-            onClick={() => setMobileOpen(false)}
-          >
-            Sponsors
-          </Link>
-          <Link
-            href="/#contact"
-            className="hover:text-blue-600 transition"
-            onClick={() => setMobileOpen(false)}
-          >
-            Contact
-          </Link>
-        </div>
-      </nav>
+          <div className={`md:hidden flex-col items-center bg-white shadow-md space-y-4 py-4 ${mobileOpen ? "flex" : "hidden"}`}>
+            <Link href="/" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Home</Link>
+            <Link href="/competition" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Competition</Link>
+            <Link href="/team" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Team</Link>
+            <Link href="/projects" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Projects</Link>
+            <Link href="/joinus" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Join Us</Link>
+            <Link href="/sponsors" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Sponsors</Link>
+            <Link href="/#contact" className="hover:text-blue-600 transition" onClick={() => setMobileOpen(false)}>Contact</Link>
+          </div>
+        </nav>
 
       {/* MAIN CONTENT */}
       <main
@@ -515,17 +463,17 @@ export default function ProjectsPage() {
                   </ul>
                   <div className="mt-6 flex flex-wrap justify-center gap-4">
                     <img
-                      src="/images/pet-example1.jpg"
+                      src="/images/petbottle1.jpg"
                       alt="Example PET bottle"
                       className="w-40 h-40 object-cover rounded-lg shadow"
                     />
                     <img
-                      src="/images/pet-example2.jpg"
+                      src="/images/petbottle2.jpg"
                       alt="Example PET bottle"
                       className="w-40 h-40 object-cover rounded-lg shadow"
                     />
                     <img
-                      src="/images/pet-example3.jpg"
+                      src="/images/petbottle3.png"
                       alt="Example PET bottle"
                       className="w-40 h-40 object-cover rounded-lg shadow"
                     />

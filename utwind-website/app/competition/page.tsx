@@ -4,15 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-declare module "aos" {
-  const AOS: {
-    init?: (options?: any) => void;
-    refresh?: () => void;
-    refreshHard?: () => void;
-    [key: string]: any;
-  };
-  export default AOS;
-}
 
 export default function CompetitionPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
