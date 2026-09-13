@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { title } from "process";
 
 type GalleryImage = {
   src: string;
@@ -26,19 +27,11 @@ const galleryYears: GalleryYear[] = [
     year: "2026-2027",
     categories: [
       {
-        title: "Competition",
-        images: [
-          { src: "/images/gallery/2026/competition/competition-1.jpg", alt: "UTWind competition photo 2026" },
-          { src: "/images/gallery/2026/competition/competition-2.jpg", alt: "UTWind turbine competition 2026" },
-          { src: "/images/gallery/2026/competition/competition-3.jpg", alt: "UTWind testing at competition 2026" },
-        ],
-      },
-      {
         title: "School Events",
         images: [
-          { src: "/images/gallery/2026/school-events/event-1.jpg", alt: "UTWind school event 2026" },
-          { src: "/images/gallery/2026/school-events/event-2.jpg", alt: "UTWind outreach event 2026" },
-          { src: "/images/gallery/2026/school-events/event-3.jpg", alt: "UTWind campus event 2026" },
+          
+          { src: "/images/2026 Gallery/IMG_0883.png", alt: "UTWind outreach event 2026" },
+          { src: "/images/2026 Gallery/IMG_0892.png", alt: "UTWind outreach event 2026" },
         ],
       },
     ],
@@ -47,11 +40,23 @@ const galleryYears: GalleryYear[] = [
     year: "2025-2026",
     categories: [
       {
+      title: "Competition",
+        images: [
+          { src: "/images/2026 Gallery/20260709_143112(0).jpg", alt: "UTWind school event 2026" },
+          { src: "/images/2026 Gallery/PXL_20260707_130908880.jpg", alt: "UTWind outreach event 2026" },
+          { src: "/images/2026 Gallery/PXL_20260709_115113436.MP.jpg", alt: "UTWind campus event 2026" },
+          { src: "/images/2026 Gallery/20260709_133319.jpg", alt: "UTWind school event 2026" },
+          { src: "/images/2026 Gallery/IMG_8148.jpg", alt: "UTWind outreach event 2026" },
+          { src: "/images/2026 Gallery/IMG_7551.jpg", alt: "UTWind outreach event 2026" }
+        ],
+      },    
+      {    
         title: "School Events",
         images: [
-          { src: "/images/2026 Gallery/IMG_0883.HEIC", alt: "UTWind school event 2025" },
-          { src: "/images/gallery/2025/school-events/event-2.jpg", alt: "UTWind outreach event 2025" },
-          { src: "/images/gallery/2025/school-events/event-3.jpg", alt: "UTWind campus event 2025" },
+          { src: "/images/gallery/2026/school-events/event-1.jpg", alt: "UTWind school event 2026" },
+          { src: "/images/gallery/2026/school-events/event-2.jpg", alt: "UTWind outreach event 2026" },
+          { src: "/images/gallery/2026/school-events/event-3.jpg", alt: "UTWind campus event 2026" },
+
         ],
       },
     ],
@@ -62,17 +67,17 @@ const galleryYears: GalleryYear[] = [
       {
         title: "Competition",
         images: [
-          { src: "/images/gallery/2024/competition/competition-1.jpg", alt: "UTWind competition photo 2024" },
-          { src: "/images/gallery/2024/competition/competition-2.jpg", alt: "UTWind turbine competition 2024" },
-          { src: "/images/gallery/2024/competition/competition-3.jpg", alt: "UTWind testing at competition 2024" },
+          { src: "/images/2024-2025 Gallery/c8214652-6feb-412f-9b73-3c9800dcb020.jpg", alt: "UTWind competition photo 2024" },
+          { src: "/images/2024-2025 Gallery/IMG_7017.jpg", alt: "UTWind turbine competition 2024" },
+          { src: "/images/2024-2025 Gallery/IMG_7092.jpg", alt: "UTWind testing at competition 2024" },
         ],
       },
       {
         title: "School Events",
         images: [
-          { src: "/images/gallery/2024/school-events/event-1.jpg", alt: "UTWind school event 2024" },
-          { src: "/images/gallery/2024/school-events/event-2.jpg", alt: "UTWind outreach event 2024" },
-          { src: "/images/gallery/2024/school-events/event-3.jpg", alt: "UTWind campus event 2024" },
+          { src: "/images/2024-2025 Gallery/IMG_3953.jpg", alt: "UTWind school event 2024" },
+          { src: "/images/2024-2025 Gallery/IMG_3955.jpg", alt: "UTWind outreach event 2024" },
+          { src: "/images/2024-2025 Gallery/IMG_3969.jpg", alt: "UTWind campus event 2024" },
         ],
       },
     ],
