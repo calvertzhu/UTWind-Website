@@ -23,7 +23,7 @@ type GalleryYear = {
 
 const galleryYears: GalleryYear[] = [
   {
-    year: "2026",
+    year: "2026-2027",
     categories: [
       {
         title: "Competition",
@@ -44,20 +44,12 @@ const galleryYears: GalleryYear[] = [
     ],
   },
   {
-    year: "2025",
+    year: "2025-2026",
     categories: [
-      {
-        title: "Competition",
-        images: [
-          { src: "/images/gallery/2025/competition/competition-1.jpg", alt: "UTWind competition photo 2025" },
-          { src: "/images/gallery/2025/competition/competition-2.jpg", alt: "UTWind turbine competition 2025" },
-          { src: "/images/gallery/2025/competition/competition-3.jpg", alt: "UTWind testing at competition 2025" },
-        ],
-      },
       {
         title: "School Events",
         images: [
-          { src: "/images/gallery/2025/school-events/event-1.jpg", alt: "UTWind school event 2025" },
+          { src: "/images/2026 Gallery/IMG_0883.HEIC", alt: "UTWind school event 2025" },
           { src: "/images/gallery/2025/school-events/event-2.jpg", alt: "UTWind outreach event 2025" },
           { src: "/images/gallery/2025/school-events/event-3.jpg", alt: "UTWind campus event 2025" },
         ],
@@ -65,7 +57,7 @@ const galleryYears: GalleryYear[] = [
     ],
   },
   {
-    year: "2024",
+    year: "2024-2025",
     categories: [
       {
         title: "Competition",
